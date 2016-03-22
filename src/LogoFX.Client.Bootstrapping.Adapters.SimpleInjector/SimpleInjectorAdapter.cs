@@ -112,6 +112,24 @@ namespace LogoFX.Client.Bootstrapping.Adapters.SimpleInjector
         }
 
         /// <summary>
+        /// Registers the collection of the dependencies.
+        /// </summary>
+        /// <typeparam name="TService">The type of the service.</typeparam><param name="dependencyTypes">The dependency types.</param>
+        public void RegisterCollection<TService>(IEnumerable<Type> dependencyTypes) where TService : class
+        {
+            _container.RegisterCollection<TService>(dependencyTypes);
+        }
+
+        /// <summary>
+        /// Registers the collection of the dependencies.
+        /// </summary>
+        /// <param name="dependencyType">The dependency type.</param><param name="dependencyTypes">The dependency types.</param>
+        public void RegisterCollection(Type dependencyType, IEnumerable<Type> dependencyTypes)
+        {
+            _container.RegisterCollection(dependencyType, dependencyTypes);
+        }
+
+        /// <summary>
         /// Gets the service instance.
         /// </summary>
         /// <typeparam name="TService">The type of the service.</typeparam>
