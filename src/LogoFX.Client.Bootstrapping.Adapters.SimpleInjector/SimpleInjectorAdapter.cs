@@ -10,7 +10,7 @@ namespace LogoFX.Client.Bootstrapping.Adapters.SimpleInjector
     /// <summary>
     /// Represents implementation of IoC container and bootstrapper adapter using Simple Injector
     /// </summary>
-    public class SimpleInjectorAdapter : IIocContainer, IBootstrapperAdapter
+    public class SimpleInjectorAdapter : IIocContainer, IIocContainerAdapter<Container>, IBootstrapperAdapter
     {
         private readonly Container _container = new Container();
 
@@ -123,10 +123,28 @@ namespace LogoFX.Client.Bootstrapping.Adapters.SimpleInjector
         /// <summary>
         /// Registers the collection of the dependencies.
         /// </summary>
+        /// <typeparam name="TService">The type of the service.</typeparam><param name="dependencies">The dependencies.</param>
+        public void RegisterCollection<TService>(IEnumerable<TService> dependencies) where TService : class
+        {
+            _container.RegisterCollection(dependencies);
+        }
+
+        /// <summary>
+        /// Registers the collection of the dependencies.
+        /// </summary>
         /// <param name="dependencyType">The dependency type.</param><param name="dependencyTypes">The dependency types.</param>
         public void RegisterCollection(Type dependencyType, IEnumerable<Type> dependencyTypes)
         {
             _container.RegisterCollection(dependencyType, dependencyTypes);
+        }
+
+        /// <summary>
+        /// Registers the collection of the dependencies.
+        /// </summary>
+        /// <param name="dependencyType">The dependency type.</param><param name="dependencies">The dependencies.</param>
+        public void RegisterCollection(Type dependencyType, IEnumerable<object> dependencies)
+        {
+            _container.RegisterCollection(dependencyType, dependencies);
         }
 
         /// <summary>
