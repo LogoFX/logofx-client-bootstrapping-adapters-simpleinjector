@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using LogoFX.Client.Bootstrapping.Adapters.Contracts;
-using LogoFX.Practices.IoC.Extensions.SimpleInjector;
 using SimpleInjector;
 using Solid.Practices.IoC;
 
 namespace LogoFX.Client.Bootstrapping.Adapters.SimpleInjector
 {
     /// <summary>
-    /// Represents implementation of IoC container and bootstrapper adapter using Simple Injector
+    /// Represents implementation of IoC container and bootstrapper adapter using Simple Injector Container.
     /// </summary>
     public class SimpleInjectorAdapter : IIocContainer, IIocContainerAdapter<Container>, IBootstrapperAdapter
     {
@@ -19,8 +19,7 @@ namespace LogoFX.Client.Bootstrapping.Adapters.SimpleInjector
         /// </summary>
         public SimpleInjectorAdapter()
         {
-            _container.Options.AllowOverridingRegistrations = true;
-            _container.Options.RegisterModelParameterConvention();
+            _container.Options.AllowOverridingRegistrations = true;            
             _container.RegisterSingleton(_container);
         }
 
@@ -215,7 +214,7 @@ namespace LogoFX.Client.Bootstrapping.Adapters.SimpleInjector
         /// <param name="instance">Instance to get injected with dependencies</param>
         public void BuildUp(object instance)
         {
-            var producer = _container.GetRegistration(instance.GetType().BaseType, true);
+            var producer = _container.GetRegistration(instance.GetType().GetTypeInfo().BaseType, true);
             producer.Registration.InitializeInstance(instance);
         }
 
