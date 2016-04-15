@@ -23,6 +23,21 @@ namespace LogoFX.Client.Bootstrapping.Adapters.SimpleInjector.Tests
         }
 
         [Test]
+        public void MultipleImplementationAreRegisteredByTypeAsParameter_ResolvedCollectionContainsAllImplementations()
+        {
+            var adapter = new SimpleInjectorAdapter();
+            adapter.RegisterCollection(typeof(ITestDependency), new[] { typeof(TestDependencyA), typeof(TestDependencyB) });
+
+            var collection = adapter.Resolve<IEnumerable<ITestDependency>>().ToArray();
+
+            var firstItem = collection.First();
+            var secondItem = collection.Last();
+
+            Assert.IsInstanceOf(typeof(TestDependencyA), firstItem);
+            Assert.IsInstanceOf(typeof(TestDependencyB), secondItem);
+        }
+
+        [Test]
         public void MultipleImplementationAreRegisteredByInstance_ResolvedCollectionContainsAllImplementations()
         {
             var adapter = new SimpleInjectorAdapter();
